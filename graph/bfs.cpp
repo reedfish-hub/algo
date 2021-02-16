@@ -5,7 +5,7 @@ using namespace std;
 
 void BFS(AdjList &adj_list, int s) {
     Vertex *p_s = adj_list.get_vertex(s);
-    p_s->set(GRAY, 0, -1);
+    p_s->set_BFS(GRAY, 0, -1);
 
     deque<int> q;
     q.push_back(s);
@@ -20,7 +20,7 @@ void BFS(AdjList &adj_list, int s) {
         for (auto v: *p_u_relation) {
             Vertex *p_v = adj_list.get_vertex(v);
             if (p_v->color == WHITE) {
-                p_v->set(GRAY, p_u->d + 1, p_u->index);
+                p_v->set_BFS(GRAY, p_u->d + 1, p_u->index);
                 q.push_back(v);
             }
         }

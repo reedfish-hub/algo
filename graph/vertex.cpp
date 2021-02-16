@@ -28,6 +28,14 @@ ostream & operator<<(ostream & os, const Vertex &v) {
     } else {
         os << static_cast<char>(v.pre_index);
     }
+    
+    os << ",";
+    if (v.f == -1) {
+        os << "INF";
+    } else {
+        os << v.f;
+    }
+    
     os << ")";
     return os;
 }

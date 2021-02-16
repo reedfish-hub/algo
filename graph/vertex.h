@@ -11,17 +11,24 @@ enum BFS_VERTEX_COLOR {
 struct Vertex {
     int index;
     BFS_VERTEX_COLOR color = WHITE;
-    int d = -1;
-    int pre_index = -1;
+    int d = -1; //BFS DFS
+    int pre_index = -1; //BFS
+    int f = -1; //DFS
 
     bool operator==(const Vertex& v) {
         return index == v.index;
     }
 
-    void set(BFS_VERTEX_COLOR color, int d, int pre_index) {
+    void set_BFS(BFS_VERTEX_COLOR color, int d, int pre_index) {
         this->color = color;
         this->d = d;
         this->pre_index = pre_index;
+    }
+
+    void set_DFS(BFS_VERTEX_COLOR color, int d, int f) {
+        this->color = color;
+        this->d = d;
+        this->f = f;
     }
 };
 
