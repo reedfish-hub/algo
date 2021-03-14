@@ -24,15 +24,6 @@ void DFS_VISIT(AdjList &adj_list, Vertex &u, DFS_TREE &result, int root_index) {
     u.f = g_time;
 }
 
-Vertex* get_vertex_by_index(AdjList &adj_list, int index) {
-    for (auto &u: adj_list.vertexs) {
-        if (index == u.index) {
-            return &u;
-        }
-    }
-    return nullptr;
-}
-
 void DFS(AdjList &adj_list, DFS_TREE &result) {
     g_time = 0;
     for (auto &u: adj_list.vertexs) {
