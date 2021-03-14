@@ -39,3 +39,5 @@ ostream & operator<<(ostream & os, const Vertex &v) {
     os << ")";
     return os;
 }
+
+vector<int> g_order;

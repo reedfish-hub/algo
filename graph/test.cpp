@@ -1,6 +1,8 @@
 #include <iostream>
+#include <algorithm>
 #include "bfs.h"
 #include "dfs.h"
+#include "strong_connected_components.h"
 
 using namespace std;
 
@@ -31,29 +33,66 @@ void test_BFS() {
 
 void test_DFS() {
     Graph g {
-        Edge{{'u'}, {'v'}},
-        Edge{{'u'}, {'x'}},
-        Edge{{'v'}, {'y'}},
-        Edge{{'w'}, {'y'}},
-        Edge{{'w'}, {'z'}},
-        Edge{{'x'}, {'v'}},
-        Edge{{'y'}, {'x'}},
-        Edge{{'z'}, {'z'}},
+        Edge{{'a'}, {'b'}},
+        Edge{{'b'}, {'c'}},
+        Edge{{'b'}, {'e'}},
+        Edge{{'b'}, {'f'}},
+        Edge{{'c'}, {'d'}},
+        Edge{{'c'}, {'g'}},
+        Edge{{'d'}, {'c'}},
+        Edge{{'d'}, {'h'}},
+        Edge{{'e'}, {'a'}},
+        Edge{{'e'}, {'f'}},
+        Edge{{'f'}, {'g'}},
+        Edge{{'g'}, {'f'}},
+        Edge{{'g'}, {'h'}},
+        Edge{{'h'}, {'h'}},
         };
     cout << "Graph:" << endl;
+    cout << g;
+
+    g_order = {'c', 'g', 'f', 'h', 'd', 'b', 'a', 'e'};
+    sort(g.begin(), g.end());
+    cout << "After sort, Graph:" << endl;
     cout << g;
 
     AdjList adj_list{g};
     cout << "AdjList:" << endl;
     cout << adj_list;
 
-    DFS(adj_list);
+    DFS_TREE result;
+    DFS(adj_list, result);
     cout << "After DFS:" << endl;
     cout << adj_list;
+    cout << "DFS tree:" << endl;
+    cout << result;
+}
+
+void test_strong_connected_components() {
+    Graph g {
+        Edge{{'a'}, {'b'}},
+        Edge{{'b'}, {'c'}},
+        Edge{{'b'}, {'e'}},
+        Edge{{'b'}, {'f'}},
+        Edge{{'c'}, {'d'}},
+        Edge{{'c'}, {'g'}},
+        Edge{{'d'}, {'c'}},
+        Edge{{'d'}, {'h'}},
+        Edge{{'e'}, {'a'}},
+        Edge{{'e'}, {'f'}},
+        Edge{{'f'}, {'g'}},
+        Edge{{'g'}, {'f'}},
+        Edge{{'g'}, {'h'}},
+        Edge{{'h'}, {'h'}},
+        };
+    
+    strong_connected_components(g);
 }
 
 int main() {
-    test_BFS();
-    cout << "---" << endl;
-    test_DFS();
+    //test_BFS();
+    //cout << "---" << endl;
+    //test_DFS();
+    //cout << "---" << endl;
+    test_strong_connected_components();
 }
