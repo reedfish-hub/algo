@@ -67,3 +67,20 @@ Relation *AdjList::get_relation(int index) {
     }
     return nullptr;
 }
+
+///
+AdjList_New::AdjList_New(const Graph_New& g) {
+    for (const auto &e : g) {
+        vertexs[e->u.id] = &(e->u);
+        vertexs[e->v.id] = &(e->v);
+        for (auto r : e->relations()) {
+            int from = r.first;
+            int to = r.second;
+            if (relations.count(from) == 0) {
+                relations[from] = std::vector<int> {to};
+            } else {
+                relations[from].push_back(to);
+            }
+        }
+    }
+}

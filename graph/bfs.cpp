@@ -3,9 +3,11 @@
 
 using namespace std;
 
-void BFS(AdjList &adj_list, int s) {
-    Vertex *p_s = adj_list.get_vertex(s);
-    p_s->set_BFS(GRAY, 0, -1);
+void BFS(AdjList_New &adj_list, int s) {
+    BFS_Vertex *p_s = dynamic_cast<BFS_Vertex *>(adj_list.vertexs[s]);
+    p_s->color = GRAY;
+    p_s->d = 0;
+    p_s->pre_index = -1;
 
     deque<int> q;
     q.push_back(s);
@@ -14,13 +16,15 @@ void BFS(AdjList &adj_list, int s) {
         int u = q[0];
         q.pop_front();
         
-        Vertex *p_u = adj_list.get_vertex(u);
-        Relation *p_u_relation = adj_list.get_relation(u);
+        BFS_Vertex *p_u = dynamic_cast<BFS_Vertex *>(adj_list.vertexs[u]);
+        const Relation& u_relation = adj_list.relations[u];
 
-        for (auto v: *p_u_relation) {
-            Vertex *p_v = adj_list.get_vertex(v);
+        for (const auto &v: u_relation) {
+            BFS_Vertex *p_v = dynamic_cast<BFS_Vertex *>(adj_list.vertexs[v]);
             if (p_v->color == WHITE) {
-                p_v->set_BFS(GRAY, p_u->d + 1, p_u->index);
+                p_v->color = GRAY;
+                p_v->d = p_u->d + 1;
+                p_v->pre_index = p_u->id;
                 q.push_back(v);
             }
         }

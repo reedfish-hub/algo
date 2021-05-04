@@ -7,65 +7,32 @@
 using namespace std;
 
 void test_BFS() {
-    Graph g {
-        BI_Edge('r', 's'),
-        BI_Edge('r', 'v'),
-        BI_Edge('s', 'w'),
-        BI_Edge('w', 't'),
-        BI_Edge('w', 'x'),
-        BI_Edge('t', 'x'),
-        BI_Edge('t', 'u'),
-        BI_Edge('x', 'u'),
-        BI_Edge('x', 'y'),
-        BI_Edge('u', 'y'),
-        };
-    cout << "Graph:" << endl;
-    cout << g;
-
-    AdjList adj_list{g};
-    cout << "AdjList:" << endl;
-    cout << adj_list;
-
+    BFS_Vertex r{'r'}, s{'s'}, v{'v'}, w{'w'}, t{'t'}, x{'x'}, u{'u'}, y{'y'};
+    Undirected_Edge rs{r, s}, rv{r, v}, sw{s, w}, wt{w, t}, wx{w, x}, tx{t, x}, tu{t, u}, xu{x, u}, xy{x, y}, uy{u, y};
+    Graph_New g{&rs, &rv, &sw, &wt, &wx, &tx, &tu, &xu, &xy, &uy};
+    AdjList_New adj_list(g);
+    
     BFS(adj_list, 's');
-    cout << "After BFS:" << endl;
+    
+    cout << "BFS(start = s) result:" << endl;
     cout << adj_list;
+    cout << "----" << endl;
 }
 
 void test_DFS() {
-    Graph g {
-        Edge{{'a'}, {'b'}},
-        Edge{{'b'}, {'c'}},
-        Edge{{'b'}, {'e'}},
-        Edge{{'b'}, {'f'}},
-        Edge{{'c'}, {'d'}},
-        Edge{{'c'}, {'g'}},
-        Edge{{'d'}, {'c'}},
-        Edge{{'d'}, {'h'}},
-        Edge{{'e'}, {'a'}},
-        Edge{{'e'}, {'f'}},
-        Edge{{'f'}, {'g'}},
-        Edge{{'g'}, {'f'}},
-        Edge{{'g'}, {'h'}},
-        Edge{{'h'}, {'h'}},
-        };
-    cout << "Graph:" << endl;
-    cout << g;
-
-    g_order = {'c', 'g', 'f', 'h', 'd', 'b', 'a', 'e'};
-    sort(g.begin(), g.end());
-    cout << "After sort, Graph:" << endl;
-    cout << g;
-
-    AdjList adj_list{g};
-    cout << "AdjList:" << endl;
-    cout << adj_list;
-
+    DFS_Vertex u{'u'}, v{'v'}, w{'w'}, x{'x'}, y{'y'}, z{'z'};
+    Directed_Edge uv{u, v}, ux{u, x}, vy{v, y}, wy{w, y}, wz{w, z}, xv{x, v}, yx{y, x}, zz{z, z};
+    Graph_New g{&uv, &ux, &vy, &wy, &wz, &xv, &yx, &zz};
+    AdjList_New adj_list(g);
     DFS_TREE result;
+
     DFS(adj_list, result);
-    cout << "After DFS:" << endl;
-    cout << adj_list;
+
+    cout << "DFS result:" << endl;
+    cout << adj_list << endl;
     cout << "DFS tree:" << endl;
-    cout << result;
+    cout << result << endl;
+    cout << "----" << endl;
 }
 
 void test_strong_connected_components() {
@@ -90,9 +57,6 @@ void test_strong_connected_components() {
 }
 
 int main() {
-    //test_BFS();
-    //cout << "---" << endl;
-    //test_DFS();
-    //cout << "---" << endl;
-    test_strong_connected_components();
+    test_BFS();
+    test_DFS();
 }

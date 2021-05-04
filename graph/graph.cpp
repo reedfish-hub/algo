@@ -9,3 +9,10 @@ ostream & operator<<(ostream & os, const Graph &g) {
     }
     return os;
 }
+
+ostream & operator<<(ostream & os, const Graph_New &g) {
+    for (const auto& e: g) {
+        os << (*e) << endl;
+    }
+    return os;
+}

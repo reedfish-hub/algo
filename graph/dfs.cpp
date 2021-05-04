@@ -2,6 +2,8 @@
 #include "adj_list.h"
 #include "dfs.h"
 
+#include <iostream>
+
 using namespace std;
 
 int g_time;
@@ -43,4 +45,34 @@ ostream & operator<<(ostream & os, const DFS_TREE &dfs_tree) {
         os << endl;
     }
     return os;
+}
+
+
+void DFS_VISIT(AdjList_New &adj_list, DFS_Vertex &u, DFS_TREE &result, int root_index) {
+    g_time++;
+    u.d = g_time;
+    u.color = GRAY;
+    const Relation &u_relation = adj_list.relations[u.id];
+    for (const auto &v: u_relation) {
+        DFS_Vertex *p_v = dynamic_cast<DFS_Vertex *>(adj_list.vertexs[v]);
+        if (p_v->color == WHITE) {
+            result[root_index].push_back(p_v->id);
+            p_v->pre_id = u.id;
+            DFS_VISIT(adj_list, *p_v, result, root_index);
+        }
+    }
+    u.color = BLACK;
+    g_time++;
+    u.f = g_time;
+}
+
+void DFS(AdjList_New &adj_list, DFS_TREE &result) {
+    g_time = 0;
+    for (const auto &it: adj_list.vertexs) {
+        DFS_Vertex *p_u = dynamic_cast<DFS_Vertex *>(it.second);
+        if (p_u->color == WHITE) {
+            result[p_u->id] = vector<int>{};
+            DFS_VISIT(adj_list, *p_u, result, p_u->id);
+        }
+    }
 }
