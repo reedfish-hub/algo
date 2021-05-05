@@ -1,86 +1,41 @@
-#include <algorithm>
 #include "adj_list.h"
 #include "graph.h"
 
 using namespace std;
 
-ostream & operator<<(ostream & os, const Relation &relation) {
-    for (const auto& i: relation) {
-        os << static_cast<char>(i) << "->";
-    }
-    return os;
-}
-
-ostream & operator<<(ostream & os, const AdjList &adj_list) {
-    for (const auto& vertex: adj_list.vertexs) {
-        os << vertex << " ";
-    }
-    os << endl;
-    for (auto it = adj_list.relations.begin(); it != adj_list.relations.end(); it++) {
-        os << static_cast<char>(it->first) << "->" << it->second << endl;
-    }
-    return os;
-}
-
-static void add_to_vertexs(vector<Vertex> &vertexs, const Vertex& v) {
-    if (find(begin(vertexs), end(vertexs), v) == vertexs.end()) {
-        vertexs.push_back(v);
-    }
-}
-
-static void add_to_relation(Relation &relation, int index) {
-    if (find(begin(relation), end(relation), index) == relation.end()) {
-        relation.push_back(index);
-    }
-}
-
-static void add_to_relations(std::map<int, Relation> &relations, int index0, int index1) {
-    auto search = relations.find(index0);
-    if (search != relations.end()) {
-        add_to_relation(search->second, index1);
-    } else {
-        relations[index0] = Relation{index1};
-    }
-}
-
-AdjList::AdjList(const Graph& g) {
-    for (auto& e: g) {
-        add_to_vertexs(vertexs, e.first);
-        add_to_vertexs(vertexs, e.second);
-        add_to_relations(relations, e.first.index, e.second.index);
-    }
-}
-
-Vertex *AdjList::get_vertex(int index) {
-    for (auto &i: vertexs) {
-        if (i.index == index) {
-            return &i;
-        }
-    }
-    return nullptr;
-}
-
-Relation *AdjList::get_relation(int index) {
-    auto search = relations.find(index);
-    if (search != relations.end()) {
-        return &search->second;
-    }
-    return nullptr;
-}
-
-///
-AdjList_New::AdjList_New(const Graph_New& g) {
-    for (const auto &e : g) {
-        vertexs[e->u.id] = &(e->u);
-        vertexs[e->v.id] = &(e->v);
-        for (auto r : e->relations()) {
+AdjList::AdjList(const Graph& graph) {
+    for (const auto &edge : graph) {
+        // 更新this->vertexs
+        vertexs[edge->u.id] = &(edge->u);
+        vertexs[edge->v.id] = &(edge->v);
+        
+        // 更新this->relations
+        for (auto r : edge->relations()) {
             int from = r.first;
             int to = r.second;
-            if (relations.count(from) == 0) {
-                relations[from] = std::vector<int> {to};
+            if (this->relations.count(from) == 0) {
+                this->relations[from] = std::vector<int> {to};
             } else {
-                relations[from].push_back(to);
+                this->relations[from].push_back(to);
             }
         }
     }
+}
+
+std::ostream & operator<<(std::ostream & os, const AdjList &adj_list) {
+    os << "vertexs:" << std::endl;
+    for (const auto &it : adj_list.vertexs) {
+        os << *(it.second) << std::endl;
+    }
+    os << std::endl;
+
+    os << "relations:" << std::endl;
+    for (const auto &it : adj_list.relations) {
+        os << static_cast<char>(it.first) << ":";
+        for (const auto & id: it.second) {
+            os << static_cast<char>(id) << ",";
+        }
+        os << std::endl;
+    }
+    return os;
 }

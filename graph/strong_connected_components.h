@@ -3,6 +3,6 @@
 
 #include "adj_list.h"
 
-void strong_connected_components(Graph &g);
+DFS_TREE strong_connected_components(Graph &g);
 
 #endif

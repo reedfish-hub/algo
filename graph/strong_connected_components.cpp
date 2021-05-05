@@ -2,45 +2,60 @@
 #include <iostream>
 #include "adj_list.h"
 #include "dfs.h"
+#include <vector>
 
 using namespace std;
 
-void trans_to_T(const Graph &g, Graph &g_T) {
-    g_T = g;
-    for (auto &i : g_T) {
-        swap(i.first, i.second);
+vector<int> get_order(const map<int, Vertex_New *> &vertexs) {
+    vector<pair<int, int>> f_id;
+    for (const auto &it: vertexs) {
+        DFS_Vertex *p_v = dynamic_cast<DFS_Vertex *>(it.second);
+        f_id.push_back({p_v->f, p_v->id});
     }
-}
-
-void sort_T(const vector<Vertex> &vertexs, Graph &g_T) {
-    vector<pair<int, int>> f_index;
-    for (const auto &i: vertexs) {
-        f_index.push_back({i.f, i.index});
-    }
-    sort(f_index.rbegin(), f_index.rend());
     
-    g_order = {};
-    for (const auto &i: f_index) {
-        g_order.push_back(i.second);
+    sort(f_id.rbegin(), f_id.rend());
+    
+    vector<int> result;
+    for (const auto &it: f_id) {
+        result.push_back(it.second);
     }
-
-    sort(g_T.begin(), g_T.end());
+    
+    return result;
 }
 
-void strong_connected_components(Graph &g) {
+void clear_vertexs(const map<int, Vertex_New *> &vertexs) {
+    for (const auto &it: vertexs) {
+        DFS_Vertex *p_v = dynamic_cast<DFS_Vertex *>(it.second);
+        *p_v = DFS_Vertex{p_v->id};
+    }
+}
+
+vector<Directed_Edge> get_edge_T(const Graph &graph) {
+    vector<Directed_Edge> result;
+    for (const auto &it : graph) {
+        result.push_back(Directed_Edge{it->v, it->u}); //交换顺序
+    }
+    return result;
+}
+
+DFS_TREE strong_connected_components(Graph &g) {
     AdjList adj_list(g);
     DFS_TREE result;
     DFS(adj_list, result);
 
-    Graph g_T;
-    trans_to_T(g, g_T);
+    vector<int> order = get_order(adj_list.vertexs);
+    
+    clear_vertexs(adj_list.vertexs);
 
-    sort_T(adj_list.vertexs, g_T);
+    vector<Directed_Edge> edge_T = get_edge_T(g);
+    Graph g_T;
+    for (const auto &it : edge_T) {
+        g_T.push_back(&it);
+    }
     
     AdjList adj_list_T(g_T);
     DFS_TREE result_T;
-    DFS(adj_list_T, result_T);
+    DFS(adj_list_T, result_T, order);
     
-    cout << "strong connected components:" << endl;
-    cout << result_T;
+    return result_T;
 }

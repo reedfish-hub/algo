@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void BFS(AdjList_New &adj_list, int s) {
+void BFS(AdjList &adj_list, int s) {
     BFS_Vertex *p_s = dynamic_cast<BFS_Vertex *>(adj_list.vertexs[s]);
     p_s->color = GRAY;
     p_s->d = 0;
