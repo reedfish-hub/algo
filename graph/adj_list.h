@@ -13,7 +13,7 @@ class AdjList {
 public:
     AdjList(const Graph& graph);
 
-    std::map<int, Vertex_New *>vertexs;
+    std::map<int, Vertex *>vertexs;
     std::map<int, Relation> relations;
 };
 

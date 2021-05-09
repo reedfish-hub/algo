@@ -3,6 +3,7 @@
 #include "bfs.h"
 #include "dfs.h"
 #include "strong_connected_components.h"
+#include "mst_kruskal.h"
 
 using namespace std;
 
@@ -48,8 +49,36 @@ void test_strong_connected_components() {
     cout << "----" << endl;
 }
 
+void test_MST_KRUSKAL() {
+    Vertex a{'a'}, b{'b'}, c{'c'}, d{'d'}, e{'e'}, f{'f'}, g{'g'}, h{'h'}, i{'i'};
+    Undirected_Weighted_Edge ab(a, b, 4);
+    Undirected_Weighted_Edge ah(a, h, 8);
+    Undirected_Weighted_Edge bc(b, c, 8);
+    Undirected_Weighted_Edge bh(b, h, 11);
+    Undirected_Weighted_Edge cd(c, d, 7);
+    Undirected_Weighted_Edge cf(c, f, 4);
+    Undirected_Weighted_Edge ci(c, i, 2);
+    Undirected_Weighted_Edge de(d, e, 9);
+    Undirected_Weighted_Edge df(d, f, 14);
+    Undirected_Weighted_Edge ef(e, f, 10);
+    Undirected_Weighted_Edge fg(f, g, 2);
+    Undirected_Weighted_Edge gh(g, h, 1);
+    Undirected_Weighted_Edge gi(g, i, 6);
+    Undirected_Weighted_Edge hi(h, i, 7);
+    Graph graph{&ab, &ah, &bc, &bh, &cd, &cf, &ci, &de, &df, &ef, &fg, &gh, &gi, &hi};
+    
+    set<pair<int, int>> A = MST_KRUSKAL(graph);
+
+    cout << "MST result:" << endl;
+    for (const auto& i : A) {
+        cout << static_cast<char>(i.first) << "-" << static_cast<char>(i.second)<< endl;
+    }
+    cout << "----" << endl;
+}
+
 int main() {
-    test_BFS();
-    test_DFS();
-    test_strong_connected_components();
+    // test_BFS();
+    // test_DFS();
+    // test_strong_connected_components();
+    test_MST_KRUSKAL();
 }

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-vector<int> get_order(const map<int, Vertex_New *> &vertexs) {
+vector<int> get_order(const map<int, Vertex *> &vertexs) {
     vector<pair<int, int>> f_id;
     for (const auto &it: vertexs) {
         DFS_Vertex *p_v = dynamic_cast<DFS_Vertex *>(it.second);
@@ -23,7 +23,7 @@ vector<int> get_order(const map<int, Vertex_New *> &vertexs) {
     return result;
 }
 
-void clear_vertexs(const map<int, Vertex_New *> &vertexs) {
+void clear_vertexs(const map<int, Vertex *> &vertexs) {
     for (const auto &it: vertexs) {
         DFS_Vertex *p_v = dynamic_cast<DFS_Vertex *>(it.second);
         *p_v = DFS_Vertex{p_v->id};

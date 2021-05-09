@@ -13,10 +13,10 @@ private:
         return ",";
     }
 public:
-    Vertex_New &u;
-    Vertex_New &v;
+    Vertex &u;
+    Vertex &v;
 
-    Edge(Vertex_New &e_u, Vertex_New &e_v) :
+    Edge(Vertex &e_u, Vertex &e_v) :
         u(e_u),
         v(e_v) {}
 
@@ -31,7 +31,7 @@ public:
 
 class Undirected_Edge : public Edge {
 public:
-    Undirected_Edge(Vertex_New &e_u, Vertex_New &e_v) :
+    Undirected_Edge(Vertex &e_u, Vertex &e_v) :
         Edge(e_u, e_v) {}
     
     std::string connection_string() const override{
@@ -46,7 +46,7 @@ public:
 
 class Directed_Edge : public Edge {
 public:
-    Directed_Edge(Vertex_New &e_u, Vertex_New &e_v) :
+    Directed_Edge(Vertex &e_u, Vertex &e_v) :
         Edge(e_u, e_v) {}
     
     std::string connection_string() const override{
@@ -55,6 +55,23 @@ public:
 
     std::vector<std::pair<int, int>> relations() const override {
         return {{u.id, v.id}};
+    }
+};
+
+class Undirected_Weighted_Edge : public Edge {
+public:
+    int weight;
+
+    Undirected_Weighted_Edge(Vertex &e_u, Vertex &e_v, int e_weight) :
+        Edge(e_u, e_v), weight(e_weight) {}
+    
+    std::string connection_string() const override{
+        return "-(" + std::to_string(weight) + ")-";
+    }
+
+    std::vector<std::pair<int, int>> relations() const override {
+        return {{u.id, v.id},
+                {v.id, u.id}};
     }
 };
 

@@ -5,53 +5,13 @@
 #include <algorithm>
 #include <string>
 
-enum BFS_VERTEX_COLOR {
+enum VERTEX_COLOR {
     WHITE,
     GRAY,
     BLACK,
 };
 
-// extern std::vector<int> g_order;
-
-// struct Vertex {
-//     int index;
-//     BFS_VERTEX_COLOR color = WHITE;
-//     int d = -1; //BFS DFS
-//     int pre_index = -1; //BFS
-//     int f = -1; //DFS
-
-//     bool operator==(const Vertex& v) const {
-//         return index == v.index;
-//     }
-
-//     bool operator<(const Vertex &v) const {
-//         if (g_order.empty()) {
-//             return index < v.index;
-//         }
-//         auto pos = find(g_order.begin(), g_order.end(), index);
-//         auto pos_v = find(g_order.begin(), g_order.end(), v.index);
-//         return pos < pos_v;
-//     }
-
-//     void set_BFS(BFS_VERTEX_COLOR color, int d, int pre_index) {
-//         this->color = color;
-//         this->d = d;
-//         this->pre_index = pre_index;
-//     }
-
-//     void set_DFS(BFS_VERTEX_COLOR color, int d, int f) {
-//         this->color = color;
-//         this->d = d;
-//         this->f = f;
-//     }
-// };
-
-// std::ostream & operator<<(std::ostream & os, const Vertex &v);
-
-////////
-
-// 新Vertex
-class Vertex_New {
+class Vertex {
 private:
     virtual std::string additional_infomation() const {
         return "";
@@ -59,24 +19,24 @@ private:
 public:
     int id;
     
-    explicit Vertex_New(int v_id) : id(v_id) {}
+    explicit Vertex(int v_id) : id(v_id) {}
 
-    friend std::ostream & operator<<(std::ostream & os, const Vertex_New &v) {
+    friend std::ostream & operator<<(std::ostream & os, const Vertex &v) {
         os << static_cast<char>(v.id) << v.additional_infomation();
         return os;
     }
 };
 
 // 用于BFS的Vertex
-class BFS_Vertex : public Vertex_New {
+class BFS_Vertex : public Vertex {
 public:
-    explicit BFS_Vertex(int v_id, BFS_VERTEX_COLOR v_color = WHITE, int v_d = -1, int v_pre_index = -1) :
-        Vertex_New(v_id),
+    explicit BFS_Vertex(int v_id, VERTEX_COLOR v_color = WHITE, int v_d = -1, int v_pre_index = -1) :
+        Vertex(v_id),
         color(v_color),
         d(v_d),
         pre_index(v_pre_index) {}
     
-    BFS_VERTEX_COLOR color;
+    VERTEX_COLOR color;
     int d;
     int pre_index;
 
@@ -113,16 +73,16 @@ public:
 };
 
 // 用于DFS的Vertex
-class DFS_Vertex : public Vertex_New {
+class DFS_Vertex : public Vertex {
 public:
-    explicit DFS_Vertex(int v_id, BFS_VERTEX_COLOR v_color = WHITE, int v_d = -1, int v_f = -1, int v_pre_id = -1) :
-        Vertex_New(v_id),
+    explicit DFS_Vertex(int v_id, VERTEX_COLOR v_color = WHITE, int v_d = -1, int v_f = -1, int v_pre_id = -1) :
+        Vertex(v_id),
         color(v_color),
         d(v_d),
         f(v_f),
         pre_id(v_pre_id) {}
     
-    BFS_VERTEX_COLOR color;
+    VERTEX_COLOR color;
     int d;
     int f;
     int pre_id;
