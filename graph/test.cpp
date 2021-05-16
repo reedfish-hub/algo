@@ -4,6 +4,7 @@
 #include "dfs.h"
 #include "strong_connected_components.h"
 #include "mst_kruskal.h"
+#include "priority_queue.h"
 
 using namespace std;
 
@@ -80,5 +81,18 @@ int main() {
     // test_BFS();
     // test_DFS();
     // test_strong_connected_components();
-    test_MST_KRUSKAL();
+    // test_MST_KRUSKAL();
+    Vertex a{'a'}, b{'b'}, c{'c'};
+    vector<PriorityQueueItem> srcData{{10, &a},
+                                      {20, &b},
+                                      {30, &c}};
+    PriorityQueue q{srcData};
+    
+    q.decrease_key(30, 5);
+
+    PriorityQueueItem min;
+    while(q.extract_min(min)) {
+        Vertex *minVertex = static_cast<Vertex *>(min.data);
+        cout << *minVertex << endl;
+    }
 }
