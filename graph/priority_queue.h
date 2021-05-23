@@ -14,7 +14,8 @@ public:
     void insert(const PriorityQueueItem& item);
     PriorityQueueItem minimum();
     bool extract_min(PriorityQueueItem &min_item);
-    void decrease_key(int oldKey, int newKey);
+    void decrease_key(PriorityQueueItem *item, int newKey);
+    friend PriorityQueueItem *GetItem(PriorityQueue &q, int id);
 private:
     std::vector<PriorityQueueItem> q;
     void build_min_heap();

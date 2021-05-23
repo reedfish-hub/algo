@@ -66,13 +66,13 @@ void PriorityQueue::exchange(int i, int j) {
     q[j] = temp; 
 }
 
-void PriorityQueue::decrease_key(int old_key, int new_key) {
-    if (new_key >= old_key) {
+void PriorityQueue::decrease_key(PriorityQueueItem *item, int new_key) {
+    if (new_key >= item->key) {
         return;
     }
     int i = 0;
     for (i = 0; i < q.size(); i++) {
-        if (old_key == q[i].key) {
+        if (item == &q[i]) {
             break;
         }
     }

@@ -126,4 +126,28 @@ public:
     }
 };
 
+// 用于PRIM算法的Vertex
+class PRIM_Vertex : public Vertex {
+public:
+    explicit PRIM_Vertex(int v_id, int v_pre_id = -1) :
+        Vertex(v_id),
+        pre_id(v_pre_id) {}
+    
+    int pre_id;
+
+    std::string additional_infomation() const override {
+        std::string info = "(";
+
+        info += "pre:";
+        if (pre_id == -1) {
+            info += "NIL";
+        } else {
+            info += static_cast<char>(pre_id);
+        }
+        
+        info += ")";
+        return info;
+    }
+};
+
 #endif

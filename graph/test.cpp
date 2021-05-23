@@ -4,6 +4,7 @@
 #include "dfs.h"
 #include "strong_connected_components.h"
 #include "mst_kruskal.h"
+#include "mst_prim.h"
 #include "priority_queue.h"
 
 using namespace std;
@@ -77,22 +78,33 @@ void test_MST_KRUSKAL() {
     cout << "----" << endl;
 }
 
-int main() {
-    // test_BFS();
-    // test_DFS();
-    // test_strong_connected_components();
-    // test_MST_KRUSKAL();
-    Vertex a{'a'}, b{'b'}, c{'c'};
-    vector<PriorityQueueItem> srcData{{10, &a},
-                                      {20, &b},
-                                      {30, &c}};
-    PriorityQueue q{srcData};
-    
-    q.decrease_key(30, 5);
+void test_MST_PRIM() {
+    PRIM_Vertex a{'a'}, b{'b'}, c{'c'}, d{'d'}, e{'e'}, f{'f'}, g{'g'}, h{'h'}, i{'i'};
+    Undirected_Weighted_Edge ab(a, b, 4);
+    Undirected_Weighted_Edge ah(a, h, 8);
+    Undirected_Weighted_Edge bc(b, c, 8);
+    Undirected_Weighted_Edge bh(b, h, 11);
+    Undirected_Weighted_Edge cd(c, d, 7);
+    Undirected_Weighted_Edge cf(c, f, 4);
+    Undirected_Weighted_Edge ci(c, i, 2);
+    Undirected_Weighted_Edge de(d, e, 9);
+    Undirected_Weighted_Edge df(d, f, 14);
+    Undirected_Weighted_Edge ef(e, f, 10);
+    Undirected_Weighted_Edge fg(f, g, 2);
+    Undirected_Weighted_Edge gh(g, h, 1);
+    Undirected_Weighted_Edge gi(g, i, 6);
+    Undirected_Weighted_Edge hi(h, i, 7);
+    Graph graph{&ab, &ah, &bc, &bh, &cd, &cf, &ci, &de, &df, &ef, &fg, &gh, &gi, &hi};
 
-    PriorityQueueItem min;
-    while(q.extract_min(min)) {
-        Vertex *minVertex = static_cast<Vertex *>(min.data);
-        cout << *minVertex << endl;
-    }
+    MST_PRIM(graph, 'a');
+    
+    cout << graph << endl;
+}
+
+int main() {
+    test_BFS();
+    test_DFS();
+    test_strong_connected_components();
+    test_MST_KRUSKAL();
+    test_MST_PRIM();
 }
