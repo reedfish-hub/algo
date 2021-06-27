@@ -75,4 +75,20 @@ public:
     }
 };
 
+class Directed_Weighted_Edge : public Edge {
+public:
+    int weight;
+
+    Directed_Weighted_Edge(Vertex &e_u, Vertex &e_v, int e_weight) :
+        Edge(e_u, e_v), weight(e_weight) {}
+    
+    std::string connection_string() const override{
+        return "-(" + std::to_string(weight) + ")->";
+    }
+
+    std::vector<std::pair<int, int>> relations() const override {
+        return {{u.id, v.id}};
+    }
+};
+
 #endif

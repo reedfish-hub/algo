@@ -6,6 +6,7 @@
 #include "mst_kruskal.h"
 #include "mst_prim.h"
 #include "priority_queue.h"
+#include "bellman_ford.h"
 
 using namespace std;
 
@@ -101,10 +102,33 @@ void test_MST_PRIM() {
     cout << graph << endl;
 }
 
+void test_Bellman_Ford() {
+    BELLMAN_FORD_Vertex s{'s'}, t{'t'}, x{'x'}, y{'y'}, z{'z'};
+    
+    Directed_Weighted_Edge tx(t, x, 5);
+    Directed_Weighted_Edge ty(t, y, 8);
+    Directed_Weighted_Edge tz(t, z, -4);
+    Directed_Weighted_Edge yx(y, x, -3);
+    Directed_Weighted_Edge yz(y, z, 9);
+    Directed_Weighted_Edge zx(z, x, 7);
+    Directed_Weighted_Edge zs(z, s, 2);
+    Directed_Weighted_Edge st(s, t, 6);
+    Directed_Weighted_Edge sy(s, y, 7);
+    Directed_Weighted_Edge xt(x, t, -2);
+    
+    Graph graph{&tx, &ty, &tz, &yx, &yz, &zx, &zs, &st, &sy, &xt};
+
+    bool result = bellman_ford(graph, 's');
+
+    cout << result << endl;
+    cout << graph << endl;
+}
+
 int main() {
     test_BFS();
     test_DFS();
     test_strong_connected_components();
     test_MST_KRUSKAL();
     test_MST_PRIM();
+    test_Bellman_Ford();
 }

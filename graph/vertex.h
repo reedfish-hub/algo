@@ -150,4 +150,36 @@ public:
     }
 };
 
+class BELLMAN_FORD_Vertex : public Vertex {
+public:
+    explicit BELLMAN_FORD_Vertex(int v_id, int v_pre_id = -1, int v_d = 10000) :
+        Vertex(v_id),
+        pre_id(v_pre_id),
+        d(v_d) {}
+    
+    int pre_id;
+    int d;
+
+    std::string additional_infomation() const override {
+        std::string info = "(";
+
+        info += "pre:";
+        if (pre_id == -1) {
+            info += "NIL";
+        } else {
+            info += static_cast<char>(pre_id);
+        }
+
+        info += ",d:";
+        if (d >= 10000) {
+            info += "INF";
+        } else {
+            info += std::to_string(d);
+        }
+        
+        info += ")";
+        return info;
+    }
+};
+
 #endif
